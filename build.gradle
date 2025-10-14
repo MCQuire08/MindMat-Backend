@@ -11,11 +11,11 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '21'
+    // Para que Gradle use JDK 21 aunque el agente tenga otro JDK
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
 }
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -31,7 +31,7 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
-    // TEST: deja que Spring Boot gestione JUnit/Mockito
+    // TEST
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
@@ -41,11 +41,16 @@ tasks.named('test') {
     finalizedBy tasks.jacocoTestReport
 }
 
+jacoco {
+    toolVersion = "0.8.10"
+}
+
 jacocoTestReport {
     dependsOn tasks.test
     reports {
         xml.required = true
         html.required = true
+        csv.required = false
     }
 }
 
@@ -56,14 +61,29 @@ bootJar {
     launchScript()
 }
 
-sonar {
+/** SONARQUBE */
+sonarqube {
     properties {
         property "sonar.projectKey", "MindMat"
         property "sonar.projectName", "MindMat"
+
         property "sonar.sources", "src/main/java"
         property "sonar.tests", "src/test/java"
         property "sonar.java.binaries", "build/classes/java/main"
         property "sonar.junit.reportPaths", "build/test-results/test"
         property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+
+        // URL y token desde variables de entorno (funciona local y en Jenkins)
+        property "sonar.host.url", System.getenv('SONAR_HOST_URL') ?: 'http://sonarqube:9000'
+        def token = System.getenv('SONAR_TOKEN') ?: System.getenv('SONAR_AUTH_TOKEN')
+        if (token) property "sonar.token", token
+
+        // Opcional: excluir basura de build
+        property "sonar.exclusions", "**/build/**,**/.gradle/**"
     }
+}
+
+// Asegura el orden correcto: tests + cobertura antes de Sonar
+tasks.named('sonarqube') {
+    dependsOn tasks.jacocoTestReport
 }

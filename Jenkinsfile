@@ -1,39 +1,26 @@
 pipeline {
   agent any
   environment {
-    SONARQUBE = 'sonar-local'
+    SONARQUBE = 'sonar-local' // Debe coincidir con el nombre configurado en Manage Jenkins → System → SonarQube servers
   }
-  options {
-    timestamps()
-  }
+  options { timestamps() }
+
   stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
+    stage('Checkout') { steps { checkout scm } }
 
     stage('Permisos gradlew (Linux)') {
       when { expression { return isUnix() } }
-      steps {
-        sh 'chmod +x gradlew || true'
-      }
+      steps { sh 'chmod +x gradlew || true' }
     }
 
     stage('Build & Test') {
       steps {
-        sh './gradlew clean test jacocoTestReport -x spotlessApply || true'
+        sh './gradlew clean test jacocoTestReport'
       }
       post {
         always {
           junit allowEmptyResults: true, testResults: 'build/test-results/test/**/*.xml'
-          publishHTML target: [
-            reportName: 'JaCoCo',
-            reportDir: 'build/reports/jacoco/test/html',
-            reportFiles: 'index.html',
-            keepAll: true,
-            alwaysLinkToLastBuild: true
-          ]
+          archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/**/*'
         }
       }
     }
@@ -41,11 +28,8 @@ pipeline {
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv("${SONARQUBE}") {
-          sh """
-            ./gradlew sonarqube \
-              -Dsonar.host.url=${env.SONAR_HOST_URL} \
-              -Dsonar.login=${env.SONAR_AUTH_TOKEN}
-          """
+          // Inyecta SONAR_HOST_URL y SONAR_AUTH_TOKEN -> el build.gradle los lee
+          sh './gradlew sonarqube -Dsonar.gradle.skipCompile=true'
         }
       }
     }
@@ -56,12 +40,6 @@ pipeline {
           waitForQualityGate abortPipeline: true
         }
       }
-    }
-  }
-
-  post {
-    always {
-      archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/**/*'
     }
   }
 }
