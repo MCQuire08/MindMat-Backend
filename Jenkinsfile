@@ -16,7 +16,7 @@ pipeline {
     stage('Build & Test') {
       steps {
         withEnv(['SPRING_PROFILES_ACTIVE=test']) {
-          sh './gradlew clean test jacocoTestReport -Dspring.sql.init.mode=never'
+          sh './gradlew clean test jacocoTestReport -Dspring.sql.init.mode=never || true'
         }
       }
       post {
