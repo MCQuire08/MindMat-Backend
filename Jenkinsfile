@@ -12,10 +12,10 @@ pipeline {
       when { expression { return isUnix() } }
       steps { sh 'chmod +x gradlew || true' }
     }
-
     stage('Build & Test') {
       steps {
         withEnv(['SPRING_PROFILES_ACTIVE=test']) {
+          // Corre tests y genera JaCoCo, pero NO tumba el pipeline si fallan
           sh './gradlew clean test jacocoTestReport -Dspring.sql.init.mode=never || true'
         }
       }
@@ -29,9 +29,9 @@ pipeline {
 
     stage('SonarQube Analysis') {
       steps {
-        withSonarQubeEnv("${SONARQUBE}") {
-          // Inyecta SONAR_HOST_URL y SONAR_AUTH_TOKEN -> el build.gradle los lee
-          sh './gradlew sonarqube -Dsonar.gradle.skipCompile=true'
+        withSonarQubeEnv('sonar-local') {
+          // Ejecuta Sonar SIN volver a correr test ni jacoco
+          sh './gradlew sonarqube -x test -x jacocoTestReport -Dsonar.gradle.skipCompile=true'
         }
       }
     }
