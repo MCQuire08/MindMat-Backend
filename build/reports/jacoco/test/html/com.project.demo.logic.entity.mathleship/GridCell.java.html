@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GridCell.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-spring</a> &gt; <a href="index.source.html" class="el_package">com.project.demo.logic.entity.mathleship</a> &gt; <span class="el_source">GridCell.java</span></div><h1>GridCell.java</h1><pre class="source lang-java linenums">package com.project.demo.logic.entity.mathleship;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+
+@Table(name = &quot;mathleshipGridCell&quot;)
+@Entity
+public class GridCell {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private int row;
+
+    @Column(name = &quot;columna&quot;) // Cambia &quot;column&quot; a &quot;columna&quot; o cualquier otro nombre que no sea reservado
+    private char column;
+
+    private int hasShip;
+    private int isHit;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;ship_id&quot;)
+    @JsonBackReference
+    private Ship ship;
+
+<span class="fc" id="L25">    public GridCell() {}</span>
+
+<span class="nc" id="L27">    public GridCell(int row, char column, int hasShip, int isHit) {</span>
+<span class="nc" id="L28">        this.row = row;</span>
+<span class="nc" id="L29">        this.column = column;</span>
+<span class="nc" id="L30">        this.hasShip = hasShip;</span>
+<span class="nc" id="L31">        this.isHit = isHit;</span>
+<span class="nc" id="L32">    }</span>
+
+    public Long getId() {
+<span class="nc" id="L35">        return id;</span>
+    }
+    public void setId(Long id) {
+<span class="nc" id="L38">        this.id = id;</span>
+<span class="nc" id="L39">    }</span>
+    public int getRow() {
+<span class="nc" id="L41">        return row;</span>
+    }
+    public void setRow(int row) {
+<span class="nc" id="L44">        this.row = row;</span>
+<span class="nc" id="L45">    }</span>
+    public char getColumn() {
+<span class="nc" id="L47">        return column;</span>
+    }
+    public void setColumn(char column) {
+<span class="nc" id="L50">        this.column = column;</span>
+<span class="nc" id="L51">    }</span>
+    public int getHasShip() {
+<span class="nc" id="L53">        return hasShip;</span>
+    }
+    public void setHasShip(int hasShip) {
+<span class="nc" id="L56">        this.hasShip = hasShip;</span>
+<span class="nc" id="L57">    }</span>
+    public int getIsHit() {
+<span class="nc" id="L59">        return isHit;</span>
+    }
+    public void setIsHit(int isHit) {
+<span class="nc" id="L62">        this.isHit = isHit;</span>
+<span class="nc" id="L63">    }</span>
+    public Ship getShip() {
+<span class="nc" id="L65">        return ship;</span>
+    }
+    public void setShip(Ship ship) {
+<span class="nc" id="L68">        this.ship = ship;</span>
+<span class="nc" id="L69">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

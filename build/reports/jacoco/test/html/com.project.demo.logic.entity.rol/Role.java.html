@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Role.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-spring</a> &gt; <a href="index.source.html" class="el_package">com.project.demo.logic.entity.rol</a> &gt; <span class="el_source">Role.java</span></div><h1>Role.java</h1><pre class="source lang-java linenums">package com.project.demo.logic.entity.rol;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.Date;
+
+@Table(name = &quot;rol&quot;)
+@Entity
+<span class="fc" id="L11">public class Role {</span>
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
+    private Integer id;
+
+    @Column(unique = true, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RoleEnum name;
+
+    @Column(nullable = false)
+    private String description;
+
+    @CreationTimestamp
+    @Column(updatable = false, name = &quot;created_at&quot;)
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name = &quot;updated_at&quot;)
+    private Date updatedAt;
+
+    public Integer getId() {
+<span class="nc" id="L33">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L37">        this.id = id;</span>
+<span class="nc" id="L38">    }</span>
+
+    public RoleEnum getName() {
+<span class="nc" id="L41">        return name;</span>
+    }
+
+    public void setName(RoleEnum name) {
+<span class="nc" id="L45">        this.name = name;</span>
+<span class="nc" id="L46">    }</span>
+
+    public String getDescription() {
+<span class="nc" id="L49">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L53">        this.description = description;</span>
+<span class="nc" id="L54">    }</span>
+
+    public Date getCreatedAt() {
+<span class="nc" id="L57">        return createdAt;</span>
+    }
+
+    public void setCreatedAt(Date createdAt) {
+<span class="nc" id="L61">        this.createdAt = createdAt;</span>
+<span class="nc" id="L62">    }</span>
+
+    public Date getUpdatedAt() {
+<span class="nc" id="L65">        return updatedAt;</span>
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+<span class="nc" id="L69">        this.updatedAt = updatedAt;</span>
+<span class="nc" id="L70">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

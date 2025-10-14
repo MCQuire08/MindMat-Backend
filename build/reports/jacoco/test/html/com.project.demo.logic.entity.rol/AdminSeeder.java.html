@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminSeeder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-spring</a> &gt; <a href="index.source.html" class="el_package">com.project.demo.logic.entity.rol</a> &gt; <span class="el_source">AdminSeeder.java</span></div><h1>AdminSeeder.java</h1><pre class="source lang-java linenums">package com.project.demo.logic.entity.rol;
+
+import com.project.demo.logic.entity.user.User;
+import com.project.demo.logic.entity.user.UserRepository;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+
+@Component
+public class AdminSeeder implements ApplicationListener&lt;ContextRefreshedEvent&gt; {
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+
+    public AdminSeeder(
+            RoleRepository roleRepository,
+            UserRepository  userRepository,
+            PasswordEncoder passwordEncoder
+<span class="fc" id="L24">    ) {</span>
+<span class="fc" id="L25">        this.roleRepository = roleRepository;</span>
+<span class="fc" id="L26">        this.userRepository = userRepository;</span>
+<span class="fc" id="L27">        this.passwordEncoder = passwordEncoder;</span>
+<span class="fc" id="L28">    }</span>
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+<span class="fc" id="L32">        this.createSuperAdministrator();</span>
+<span class="fc" id="L33">    }</span>
+
+    private void createSuperAdministrator() {
+<span class="fc" id="L36">        User superAdmin = new User();</span>
+<span class="fc" id="L37">        superAdmin.setName(&quot;Super&quot;);</span>
+<span class="fc" id="L38">        superAdmin.setLastname(&quot;Admin&quot;);</span>
+<span class="fc" id="L39">        superAdmin.setEmail(&quot;super.admin@gmail.com&quot;);</span>
+<span class="fc" id="L40">        superAdmin.setPassword(&quot;superadmin123&quot;);</span>
+<span class="fc" id="L41">        superAdmin.setAvatarId(1);</span>
+<span class="fc" id="L42">        superAdmin.setActive(1);</span>
+
+<span class="fc" id="L44">        Optional&lt;Role&gt; optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);</span>
+<span class="fc" id="L45">        Optional&lt;User&gt; optionalUser = userRepository.findByEmail(superAdmin.getEmail());</span>
+
+<span class="pc bpc" id="L47" title="2 of 4 branches missed.">        if (optionalRole.isEmpty() || optionalUser.isPresent()) {</span>
+<span class="fc" id="L48">            return;</span>
+        }
+
+<span class="nc" id="L51">        var user = new User();</span>
+<span class="nc" id="L52">        user.setName(superAdmin.getName());</span>
+<span class="nc" id="L53">        user.setLastname(superAdmin.getLastname());</span>
+<span class="nc" id="L54">        user.setEmail(superAdmin.getEmail());</span>
+<span class="nc" id="L55">        user.setPassword(passwordEncoder.encode(superAdmin.getPassword()));</span>
+<span class="nc" id="L56">        user.setRole(optionalRole.get());</span>
+<span class="nc" id="L57">        user.setActive(superAdmin.getActive());</span>
+<span class="nc" id="L58">        user.setAvatarId(superAdmin.getAvatarId());</span>
+
+<span class="nc" id="L60">        userRepository.save(user);</span>
+<span class="nc" id="L61">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

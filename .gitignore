@@ -27,6 +27,7 @@ src/main/resources/application.properties
 .gradle/
 .idea/
 build/tmp/
+build/reports/
 build/classes/
 build/generated/
 build/resources/

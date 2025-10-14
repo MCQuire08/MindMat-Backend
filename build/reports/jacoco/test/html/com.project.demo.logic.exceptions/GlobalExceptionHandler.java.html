@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-spring</a> &gt; <a href="index.source.html" class="el_package">com.project.demo.logic.exceptions</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.project.demo.logic.exceptions;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AccountStatusException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+<span class="fc" id="L14">public class GlobalExceptionHandler {</span>
+    @ExceptionHandler(Exception.class)
+    public ProblemDetail handleSecurityException(Exception exception) {
+<span class="nc" id="L17">        ProblemDetail errorDetail = null;</span>
+
+        // TODO send this stack trace to an observability tool
+<span class="nc" id="L20">        exception.printStackTrace();</span>
+
+<span class="nc bnc" id="L22" title="All 2 branches missed.">        if (exception instanceof BadCredentialsException) {</span>
+<span class="nc" id="L23">            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), exception.getMessage());</span>
+<span class="nc" id="L24">            errorDetail.setProperty(&quot;description&quot;, &quot;The username or password is incorrect&quot;);</span>
+
+<span class="nc" id="L26">            return errorDetail;</span>
+        }
+
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (exception instanceof AccountStatusException) {</span>
+<span class="nc" id="L30">            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());</span>
+<span class="nc" id="L31">            errorDetail.setProperty(&quot;description&quot;, &quot;The account is locked&quot;);</span>
+        }
+
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (exception instanceof AccessDeniedException) {</span>
+<span class="nc" id="L35">            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());</span>
+<span class="nc" id="L36">            errorDetail.setProperty(&quot;description&quot;, &quot;You are not authorized to access this resource&quot;);</span>
+        }
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (exception instanceof SignatureException) {</span>
+<span class="nc" id="L40">            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());</span>
+<span class="nc" id="L41">            errorDetail.setProperty(&quot;description&quot;, &quot;The JWT signature is invalid&quot;);</span>
+        }
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if (exception instanceof ExpiredJwtException) {</span>
+<span class="nc" id="L45">            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403), exception.getMessage());</span>
+<span class="nc" id="L46">            errorDetail.setProperty(&quot;description&quot;, &quot;The JWT token has expired&quot;);</span>
+        }
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        if (errorDetail == null) {</span>
+<span class="nc" id="L50">            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), exception.getMessage());</span>
+<span class="nc" id="L51">            errorDetail.setProperty(&quot;description&quot;, &quot;Unknown internal server error.&quot;);</span>
+        }
+
+<span class="nc" id="L54">        return errorDetail;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

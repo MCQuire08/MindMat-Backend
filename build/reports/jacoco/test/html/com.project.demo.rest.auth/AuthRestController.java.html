@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-spring</a> &gt; <a href="index.source.html" class="el_package">com.project.demo.rest.auth</a> &gt; <span class="el_source">AuthRestController.java</span></div><h1>AuthRestController.java</h1><pre class="source lang-java linenums">package com.project.demo.rest.auth;
+
+import com.project.demo.logic.entity.auth.AuthenticationService;
+import com.project.demo.logic.entity.auth.JwtService;
+import com.project.demo.logic.entity.rol.Role;
+import com.project.demo.logic.entity.rol.RoleEnum;
+import com.project.demo.logic.entity.rol.RoleRepository;
+import com.project.demo.logic.entity.user.LoginResponse;
+import com.project.demo.logic.entity.user.User;
+import com.project.demo.logic.entity.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import java.util.Map;
+import java.util.UUID;
+
+import java.util.Optional;
+
+@RequestMapping(&quot;/auth&quot;)
+@RestController
+public class AuthRestController {
+
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    private final AuthenticationService authenticationService;
+    private final JwtService jwtService;
+
+<span class="fc" id="L48">    public AuthRestController(JwtService jwtService, AuthenticationService authenticationService) {</span>
+<span class="fc" id="L49">        this.jwtService = jwtService;</span>
+<span class="fc" id="L50">        this.authenticationService = authenticationService;</span>
+<span class="fc" id="L51">    }</span>
+
+    @PostMapping(&quot;/login&quot;)
+    public ResponseEntity&lt;LoginResponse&gt; authenticate(@RequestBody User user) {
+<span class="nc" id="L55">        User authenticatedUser = authenticationService.authenticate(user);</span>
+
+<span class="nc" id="L57">        String jwtToken = jwtService.generateToken(authenticatedUser);</span>
+
+<span class="nc" id="L59">        LoginResponse loginResponse = new LoginResponse();</span>
+<span class="nc" id="L60">        loginResponse.setToken(jwtToken);</span>
+<span class="nc" id="L61">        loginResponse.setExpiresIn(jwtService.getExpirationTime());</span>
+
+<span class="nc" id="L63">        Optional&lt;User&gt; foundedUser = userRepository.findByEmail(user.getEmail());</span>
+
+<span class="nc" id="L65">        foundedUser.ifPresent(loginResponse::setAuthUser);</span>
+
+<span class="nc" id="L67">        return ResponseEntity.ok(loginResponse);</span>
+    }
+
+    @PostMapping(&quot;/signup&quot;)
+    public ResponseEntity&lt;?&gt; registerUser(@RequestBody User user) {
+<span class="nc" id="L72">        Optional&lt;User&gt; existingUser = userRepository.findByEmail(user.getEmail());</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (existingUser.isPresent()) {</span>
+<span class="nc" id="L74">            return ResponseEntity.status(HttpStatus.CONFLICT).body(&quot;Email already in use&quot;);</span>
+        }
+
+<span class="nc" id="L77">        user.setPassword(passwordEncoder.encode(user.getPassword()));</span>
+<span class="nc" id="L78">        Optional&lt;Role&gt; optionalRole = roleRepository.findByName(RoleEnum.USER);</span>
+
+        /*Optional&lt;Role&gt; userRole = roleRepository.findByName(RoleEnum.USER);
+        if (userRole.isPresent()) {
+            user.setRole(userRole.get()); // Asignar el rol al usuario
+        } else {
+            return ResponseEntity.badRequest().body(&quot;Error: Rol predeterminado 'USER' no encontrado.&quot;);
+        }*/
+
+<span class="nc" id="L87">        user.setActive(1);</span>
+<span class="nc" id="L88">        user.setAvatarId(1);</span>
+<span class="nc" id="L89">        user.setRole(optionalRole.get());</span>
+<span class="nc" id="L90">        User savedUser = userRepository.save(user);</span>
+<span class="nc" id="L91">        return ResponseEntity.ok(savedUser);</span>
+    }
+
+    @PostMapping(&quot;/request-password-reset&quot;)
+    public ResponseEntity&lt;String&gt; requestPasswordReset(@RequestBody Map&lt;String, String&gt; request) {
+<span class="nc" id="L96">        String email = request.get(&quot;email&quot;);</span>
+<span class="nc" id="L97">        Optional&lt;User&gt; userOpt = userRepository.findByEmail(email);</span>
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (userOpt.isPresent()) {</span>
+<span class="nc" id="L100">            User user = userOpt.get();</span>
+<span class="nc" id="L101">            String token = UUID.randomUUID().toString();</span>
+<span class="nc" id="L102">            user.setResetToken(token);</span>
+<span class="nc" id="L103">            userRepository.save(user);</span>
+
+<span class="nc" id="L105">            SimpleMailMessage mailMessage = new SimpleMailMessage();</span>
+<span class="nc" id="L106">            mailMessage.setTo(user.getEmail());</span>
+<span class="nc" id="L107">            mailMessage.setSubject(&quot;Recuperación de contraseña de aplicación MindMat&quot;);</span>
+<span class="nc" id="L108">            mailMessage.setText(</span>
+                    &quot;Estimado Usuario:\n\n&quot;+
+                    &quot;Este correo es para cambiar tu contraseña en la aplicación MindMat.\n\n&quot; +
+                            &quot;Si solicitaste un cambio de contraseña, haz clic en el siguiente enlace para restablecerla:\n&quot; +
+                            &quot;http://localhost:4200/reset-password?token=&quot; + token + &quot;\n\n&quot; +
+                            &quot;Si no solicitaste este cambio, ignora este mensaje o ponte en contacto con el soporte.\n\n&quot; +
+                            &quot;Saludos,\n&quot; +
+                            &quot;El equipo de MindMat&quot;
+            );
+
+<span class="nc" id="L118">            mailSender.send(mailMessage);</span>
+<span class="nc" id="L119">            return ResponseEntity.ok(&quot;Correo enviado&quot;);</span>
+        } else {
+<span class="nc" id="L121">            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;Correo no registrado&quot;);</span>
+        }
+    }
+
+    @PostMapping(&quot;/reset-password&quot;)
+    public ResponseEntity&lt;String&gt; resetPassword(@RequestBody Map&lt;String, String&gt; request) {
+<span class="nc" id="L127">        String token = request.get(&quot;token&quot;);</span>
+<span class="nc" id="L128">        String newPassword = request.get(&quot;newPassword&quot;);</span>
+
+<span class="nc" id="L130">        Optional&lt;User&gt; userOpt = userRepository.findByResetToken(token);</span>
+
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (userOpt.isPresent()) {</span>
+<span class="nc" id="L133">            User user = userOpt.get();</span>
+<span class="nc" id="L134">            user.setPassword(passwordEncoder.encode(newPassword));</span>
+<span class="nc" id="L135">            user.setResetToken(null); // Limpiar el token después de cambiar la contraseña</span>
+<span class="nc" id="L136">            userRepository.save(user);</span>
+<span class="nc" id="L137">            return ResponseEntity.ok(&quot;Contraseña actualizada&quot;);</span>
+        } else {
+<span class="nc" id="L139">            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(&quot;Token inválido&quot;);</span>
+        }
+    }
+
+    @GetMapping(&quot;/check-email&quot;)
+    public ResponseEntity&lt;String&gt; checkEmailExists(@RequestParam String email) {
+<span class="nc" id="L145">        boolean emailExists = userRepository.findByEmail(email).isPresent();</span>
+
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (emailExists) {</span>
+<span class="nc" id="L148">            return ResponseEntity.status(HttpStatus.CONFLICT).body(&quot;Email already in use&quot;);</span>
+        } else {
+<span class="nc" id="L150">            return ResponseEntity.ok(&quot;Email available&quot;);</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

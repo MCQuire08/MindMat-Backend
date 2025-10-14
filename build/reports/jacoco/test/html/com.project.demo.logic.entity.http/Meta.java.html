@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Meta.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-spring</a> &gt; <a href="index.source.html" class="el_package">com.project.demo.logic.entity.http</a> &gt; <span class="el_source">Meta.java</span></div><h1>Meta.java</h1><pre class="source lang-java linenums">package com.project.demo.logic.entity.http;
+
+public class Meta {
+    private String method;
+    private String url;
+
+    private int totalPages;
+
+    private long totalElements;
+
+    private int pageNumber;
+
+    private int pageSize;
+
+<span class="fc" id="L15">    public Meta(String method, String url) {</span>
+<span class="fc" id="L16">        this.method = method;</span>
+<span class="fc" id="L17">        this.url = url;</span>
+<span class="fc" id="L18">    }</span>
+
+    public String getMethod() {
+<span class="nc" id="L21">        return method;</span>
+    }
+
+    public void setMethod(String method) {
+<span class="nc" id="L25">        this.method = method;</span>
+<span class="nc" id="L26">    }</span>
+
+    public String getUrl() {
+<span class="nc" id="L29">        return url;</span>
+    }
+
+    public void setUrl(String url) {
+<span class="nc" id="L33">        this.url = url;</span>
+<span class="nc" id="L34">    }</span>
+
+    public int getTotalPages() {
+<span class="nc" id="L37">        return totalPages;</span>
+    }
+
+    public void setTotalPages(int totalPages) {
+<span class="fc" id="L41">        this.totalPages = totalPages;</span>
+<span class="fc" id="L42">    }</span>
+
+    public long getTotalElements() {
+<span class="nc" id="L45">        return totalElements;</span>
+    }
+
+    public void setTotalElements(long totalElements) {
+<span class="fc" id="L49">        this.totalElements = totalElements;</span>
+<span class="fc" id="L50">    }</span>
+
+    public int getPageNumber() {
+<span class="nc" id="L53">        return pageNumber;</span>
+    }
+
+    public void setPageNumber(int pageNumber) {
+<span class="fc" id="L57">        this.pageNumber = pageNumber;</span>
+<span class="fc" id="L58">    }</span>
+
+    public int getPageSize() {
+<span class="nc" id="L61">        return pageSize;</span>
+    }
+
+    public void setPageSize(int pageSize) {
+<span class="fc" id="L65">        this.pageSize = pageSize;</span>
+<span class="fc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

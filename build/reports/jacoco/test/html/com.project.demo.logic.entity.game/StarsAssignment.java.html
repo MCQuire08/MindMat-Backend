@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StarsAssignment.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-spring</a> &gt; <a href="index.source.html" class="el_package">com.project.demo.logic.entity.game</a> &gt; <span class="el_source">StarsAssignment.java</span></div><h1>StarsAssignment.java</h1><pre class="source lang-java linenums">package com.project.demo.logic.entity.game;
+
+import com.project.demo.logic.entity.user.User;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import java.util.Date;
+
+@Entity
+@Table(name = &quot;stars_assignment&quot;)
+<span class="fc" id="L10">public class StarsAssignment {</span>
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;game_id&quot;, nullable = false)
+    private Game game;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;student_id&quot;, nullable = false)
+    private User student;
+
+    @Column(nullable = false)
+    private int stars;
+
+    @CreationTimestamp
+    @Column(updatable = false, name = &quot;assigned_at&quot;)
+    private Date assignedAt;
+
+    public Long getId() {
+<span class="nc" id="L32">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L36">        this.id = id;</span>
+<span class="nc" id="L37">    }</span>
+
+    public Game getGame() {
+<span class="nc" id="L40">        return game;</span>
+    }
+
+    public void setGame(Game game) {
+<span class="nc" id="L44">        this.game = game;</span>
+<span class="nc" id="L45">    }</span>
+
+    public User getStudent() {
+<span class="nc" id="L48">        return student;</span>
+    }
+
+    public void setStudent(User student) {
+<span class="nc" id="L52">        this.student = student;</span>
+<span class="nc" id="L53">    }</span>
+
+    public int getStars() {
+<span class="nc" id="L56">        return stars;</span>
+    }
+
+    public void setStars(int stars) {
+<span class="nc" id="L60">        this.stars = stars;</span>
+<span class="nc" id="L61">    }</span>
+
+    public Date getAssignedAt() {
+<span class="nc" id="L64">        return assignedAt;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
