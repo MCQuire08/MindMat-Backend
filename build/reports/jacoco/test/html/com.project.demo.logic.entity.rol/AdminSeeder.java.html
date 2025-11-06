@@ -21,31 +21,31 @@ public class AdminSeeder implements ApplicationListener&lt;ContextRefreshedEvent
             RoleRepository roleRepository,
             UserRepository  userRepository,
             PasswordEncoder passwordEncoder
-<span class="fc" id="L24">    ) {</span>
-<span class="fc" id="L25">        this.roleRepository = roleRepository;</span>
-<span class="fc" id="L26">        this.userRepository = userRepository;</span>
-<span class="fc" id="L27">        this.passwordEncoder = passwordEncoder;</span>
-<span class="fc" id="L28">    }</span>
+<span class="nc" id="L24">    ) {</span>
+<span class="nc" id="L25">        this.roleRepository = roleRepository;</span>
+<span class="nc" id="L26">        this.userRepository = userRepository;</span>
+<span class="nc" id="L27">        this.passwordEncoder = passwordEncoder;</span>
+<span class="nc" id="L28">    }</span>
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-<span class="fc" id="L32">        this.createSuperAdministrator();</span>
-<span class="fc" id="L33">    }</span>
+<span class="nc" id="L32">        this.createSuperAdministrator();</span>
+<span class="nc" id="L33">    }</span>
 
     private void createSuperAdministrator() {
-<span class="fc" id="L36">        User superAdmin = new User();</span>
-<span class="fc" id="L37">        superAdmin.setName(&quot;Super&quot;);</span>
-<span class="fc" id="L38">        superAdmin.setLastname(&quot;Admin&quot;);</span>
-<span class="fc" id="L39">        superAdmin.setEmail(&quot;super.admin@gmail.com&quot;);</span>
-<span class="fc" id="L40">        superAdmin.setPassword(&quot;superadmin123&quot;);</span>
-<span class="fc" id="L41">        superAdmin.setAvatarId(1);</span>
-<span class="fc" id="L42">        superAdmin.setActive(1);</span>
+<span class="nc" id="L36">        User superAdmin = new User();</span>
+<span class="nc" id="L37">        superAdmin.setName(&quot;Super&quot;);</span>
+<span class="nc" id="L38">        superAdmin.setLastname(&quot;Admin&quot;);</span>
+<span class="nc" id="L39">        superAdmin.setEmail(&quot;super.admin@gmail.com&quot;);</span>
+<span class="nc" id="L40">        superAdmin.setPassword(&quot;superadmin123&quot;);</span>
+<span class="nc" id="L41">        superAdmin.setAvatarId(1);</span>
+<span class="nc" id="L42">        superAdmin.setActive(1);</span>
 
-<span class="fc" id="L44">        Optional&lt;Role&gt; optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);</span>
-<span class="fc" id="L45">        Optional&lt;User&gt; optionalUser = userRepository.findByEmail(superAdmin.getEmail());</span>
+<span class="nc" id="L44">        Optional&lt;Role&gt; optionalRole = roleRepository.findByName(RoleEnum.SUPER_ADMIN);</span>
+<span class="nc" id="L45">        Optional&lt;User&gt; optionalUser = userRepository.findByEmail(superAdmin.getEmail());</span>
 
-<span class="pc bpc" id="L47" title="2 of 4 branches missed.">        if (optionalRole.isEmpty() || optionalUser.isPresent()) {</span>
-<span class="fc" id="L48">            return;</span>
+<span class="nc bnc" id="L47" title="All 4 branches missed.">        if (optionalRole.isEmpty() || optionalUser.isPresent()) {</span>
+<span class="nc" id="L48">            return;</span>
         }
 
 <span class="nc" id="L51">        var user = new User();</span>
@@ -60,4 +60,4 @@ public class AdminSeeder implements ApplicationListener&lt;ContextRefreshedEvent
 <span class="nc" id="L60">        userRepository.save(user);</span>
 <span class="nc" id="L61">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

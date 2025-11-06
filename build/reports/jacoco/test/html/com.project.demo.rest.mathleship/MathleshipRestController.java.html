@@ -19,7 +19,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping(&quot;/api/mathleship&quot;)
-<span class="fc" id="L22">public class MathleshipRestController {</span>
+<span class="nc" id="L22">public class MathleshipRestController {</span>
 
     @Autowired
     private MathleshipRepository mathleshipRepository;
@@ -32,10 +32,10 @@ import java.util.Random;
 
 
 
-<span class="fc" id="L35">    private final int BOARD_SIZE = 6;</span>
-<span class="fc" id="L36">    private final List&lt;Integer&gt; SHIP_SIZES = List.of(4, 3, 2, 1);</span>
-<span class="fc" id="L37">    private final Random random = new Random();</span>
-<span class="fc" id="L38">    private final char[] COLUMNS = {'A', 'B', 'C', 'D', 'E', 'F'};</span>
+<span class="nc" id="L35">    private final int BOARD_SIZE = 6;</span>
+<span class="nc" id="L36">    private final List&lt;Integer&gt; SHIP_SIZES = List.of(4, 3, 2, 1);</span>
+<span class="nc" id="L37">    private final Random random = new Random();</span>
+<span class="nc" id="L38">    private final char[] COLUMNS = {'A', 'B', 'C', 'D', 'E', 'F'};</span>
 
     @GetMapping(&quot;/initialize&quot;)
     public List&lt;Ship&gt; initializeBoard() {
@@ -195,4 +195,4 @@ import java.util.Random;
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

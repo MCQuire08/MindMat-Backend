@@ -30,7 +30,7 @@ public class Team {
     @JoinColumn(name = &quot;teacher_leader_id&quot;, referencedColumnName = &quot;id&quot;, nullable = false)
     private User teacherLeader;
 
-<span class="fc" id="L33">    @ManyToMany</span>
+<span class="nc" id="L33">    @ManyToMany</span>
     @JoinTable(
             name = &quot;team_students&quot;,
             joinColumns = @JoinColumn(name = &quot;team_id&quot;),
@@ -48,7 +48,7 @@ public class Team {
     private Date updatedAt;
 
 
-<span class="fc" id="L51">    public Team() {}</span>
+<span class="nc" id="L51">    public Team() {}</span>
 
 
     public Long getId() {
@@ -117,4 +117,4 @@ public class Team {
 <span class="nc" id="L117">        this.updatedAt = updatedAt;</span>
 <span class="nc" id="L118">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

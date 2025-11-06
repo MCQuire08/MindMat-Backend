@@ -28,11 +28,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             JwtService jwtService,
             UserDetailsService userDetailsService,
             HandlerExceptionResolver handlerExceptionResolver
-<span class="fc" id="L31">    ) {</span>
-<span class="fc" id="L32">        this.jwtService = jwtService;</span>
-<span class="fc" id="L33">        this.userDetailsService = userDetailsService;</span>
-<span class="fc" id="L34">        this.handlerExceptionResolver = handlerExceptionResolver;</span>
-<span class="fc" id="L35">    }</span>
+<span class="nc" id="L31">    ) {</span>
+<span class="nc" id="L32">        this.jwtService = jwtService;</span>
+<span class="nc" id="L33">        this.userDetailsService = userDetailsService;</span>
+<span class="nc" id="L34">        this.handlerExceptionResolver = handlerExceptionResolver;</span>
+<span class="nc" id="L35">    }</span>
 
     @Override
     protected void doFilterInternal(
@@ -74,4 +74,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 <span class="nc" id="L74">        }</span>
 <span class="nc" id="L75">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

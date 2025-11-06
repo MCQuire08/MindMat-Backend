@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-<span class="fc" id="L14">public class GlobalExceptionHandler {</span>
+<span class="nc" id="L14">public class GlobalExceptionHandler {</span>
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleSecurityException(Exception exception) {
 <span class="nc" id="L17">        ProblemDetail errorDetail = null;</span>
@@ -54,4 +54,4 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 <span class="nc" id="L54">        return errorDetail;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

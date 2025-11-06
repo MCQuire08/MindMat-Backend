@@ -19,27 +19,27 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfiguration( JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider
-<span class="fc" id="L22">    ) {</span>
-<span class="fc" id="L23">        this.authenticationProvider = authenticationProvider;</span>
-<span class="fc" id="L24">        this.jwtAuthenticationFilter = jwtAuthenticationFilter;</span>
-<span class="fc" id="L25">    }</span>
+<span class="nc" id="L22">    ) {</span>
+<span class="nc" id="L23">        this.authenticationProvider = authenticationProvider;</span>
+<span class="nc" id="L24">        this.jwtAuthenticationFilter = jwtAuthenticationFilter;</span>
+<span class="nc" id="L25">    }</span>
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-<span class="fc" id="L29">        http</span>
-<span class="fc" id="L30">                .csrf().disable()</span>
-<span class="fc" id="L31">                .authorizeHttpRequests((authorize) -&gt; authorize</span>
-<span class="fc" id="L32">                        .requestMatchers(HttpMethod.POST, &quot;/auth/**&quot;).permitAll()</span>
-<span class="fc" id="L33">                        .anyRequest().authenticated()</span>
+<span class="nc" id="L29">        http</span>
+<span class="nc" id="L30">                .csrf().disable()</span>
+<span class="nc" id="L31">                .authorizeHttpRequests((authorize) -&gt; authorize</span>
+<span class="nc" id="L32">                        .requestMatchers(HttpMethod.POST, &quot;/auth/**&quot;).permitAll()</span>
+<span class="nc" id="L33">                        .anyRequest().authenticated()</span>
                 )
-<span class="fc" id="L35">                .sessionManagement()</span>
-<span class="fc" id="L36">                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)</span>
-<span class="fc" id="L37">                .and()</span>
-<span class="fc" id="L38">                .authenticationProvider(authenticationProvider)</span>
-<span class="fc" id="L39">                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);</span>
+<span class="nc" id="L35">                .sessionManagement()</span>
+<span class="nc" id="L36">                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)</span>
+<span class="nc" id="L37">                .and()</span>
+<span class="nc" id="L38">                .authenticationProvider(authenticationProvider)</span>
+<span class="nc" id="L39">                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);</span>
 
-<span class="fc" id="L41">        return http.build();</span>
+<span class="nc" id="L41">        return http.build();</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

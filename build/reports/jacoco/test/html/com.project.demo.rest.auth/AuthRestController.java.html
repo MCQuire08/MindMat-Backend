@@ -45,10 +45,10 @@ public class AuthRestController {
     private final AuthenticationService authenticationService;
     private final JwtService jwtService;
 
-<span class="fc" id="L48">    public AuthRestController(JwtService jwtService, AuthenticationService authenticationService) {</span>
-<span class="fc" id="L49">        this.jwtService = jwtService;</span>
-<span class="fc" id="L50">        this.authenticationService = authenticationService;</span>
-<span class="fc" id="L51">    }</span>
+<span class="nc" id="L48">    public AuthRestController(JwtService jwtService, AuthenticationService authenticationService) {</span>
+<span class="nc" id="L49">        this.jwtService = jwtService;</span>
+<span class="nc" id="L50">        this.authenticationService = authenticationService;</span>
+<span class="nc" id="L51">    }</span>
 
     @PostMapping(&quot;/login&quot;)
     public ResponseEntity&lt;LoginResponse&gt; authenticate(@RequestBody User user) {
@@ -152,4 +152,4 @@ public class AuthRestController {
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

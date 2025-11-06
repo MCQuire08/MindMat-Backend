@@ -13,27 +13,27 @@ public class RoleSeeder implements ApplicationListener&lt;ContextRefreshedEvent&
     private final RoleRepository roleRepository;
 
 
-<span class="fc" id="L16">    public RoleSeeder(RoleRepository roleRepository) {</span>
-<span class="fc" id="L17">        this.roleRepository = roleRepository;</span>
-<span class="fc" id="L18">    }</span>
+<span class="nc" id="L16">    public RoleSeeder(RoleRepository roleRepository) {</span>
+<span class="nc" id="L17">        this.roleRepository = roleRepository;</span>
+<span class="nc" id="L18">    }</span>
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-<span class="fc" id="L22">        this.loadRoles();</span>
-<span class="fc" id="L23">    }</span>
+<span class="nc" id="L22">        this.loadRoles();</span>
+<span class="nc" id="L23">    }</span>
 
     private void loadRoles() {
-<span class="fc" id="L26">        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN };</span>
-<span class="fc" id="L27">        Map&lt;RoleEnum, String&gt; roleDescriptionMap = Map.of(</span>
+<span class="nc" id="L26">        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN };</span>
+<span class="nc" id="L27">        Map&lt;RoleEnum, String&gt; roleDescriptionMap = Map.of(</span>
                 RoleEnum.USER, &quot;Default user role&quot;,
                 RoleEnum.ADMIN, &quot;Administrator role&quot;,
                 RoleEnum.SUPER_ADMIN, &quot;Super Administrator role&quot;
         );
 
-<span class="fc" id="L33">        Arrays.stream(roleNames).forEach((roleName) -&gt; {</span>
-<span class="fc" id="L34">            Optional&lt;Role&gt; optionalRole = roleRepository.findByName(roleName);</span>
+<span class="nc" id="L33">        Arrays.stream(roleNames).forEach((roleName) -&gt; {</span>
+<span class="nc" id="L34">            Optional&lt;Role&gt; optionalRole = roleRepository.findByName(roleName);</span>
 
-<span class="fc" id="L36">            optionalRole.ifPresentOrElse(System.out::println, () -&gt; {</span>
+<span class="nc" id="L36">            optionalRole.ifPresentOrElse(System.out::println, () -&gt; {</span>
 <span class="nc" id="L37">                Role roleToCreate = new Role();</span>
 
 <span class="nc" id="L39">                roleToCreate.setName(roleName);</span>
@@ -41,7 +41,7 @@ public class RoleSeeder implements ApplicationListener&lt;ContextRefreshedEvent&
 
 <span class="nc" id="L42">                roleRepository.save(roleToCreate);</span>
 <span class="nc" id="L43">            });</span>
-<span class="fc" id="L44">        });</span>
-<span class="fc" id="L45">    }</span>
+<span class="nc" id="L44">        });</span>
+<span class="nc" id="L45">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

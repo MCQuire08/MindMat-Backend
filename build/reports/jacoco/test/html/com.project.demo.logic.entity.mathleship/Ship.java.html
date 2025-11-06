@@ -16,11 +16,11 @@ public class Ship {
     private int size;
     private int hitCount;
 
-<span class="pc" id="L19">    @OneToMany(mappedBy = &quot;ship&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</span>
+<span class="nc" id="L19">    @OneToMany(mappedBy = &quot;ship&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</span>
     @JsonManagedReference
     private List&lt;GridCell&gt; cellsOccupied = new ArrayList&lt;&gt;();
 
-<span class="fc" id="L23">    public Ship() {}</span>
+<span class="nc" id="L23">    public Ship() {}</span>
 
 <span class="nc" id="L25">    public Ship(String name, int size, int hitCount, List&lt;GridCell&gt; cellsOccupied) {</span>
 <span class="nc" id="L26">        this.name = name;</span>
@@ -60,4 +60,4 @@ public class Ship {
 <span class="nc" id="L60">    }</span>
 }
 
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
